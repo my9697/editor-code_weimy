@@ -8,12 +8,15 @@ import { ref } from 'vue'
 export const useLoginStore = defineStore(
   'login',
   () => {
+    const loginType = ref(2)
+
     function login(formData: FormState) {
+      const data = Object.assign(formData, { type: loginType })
       try {
         myRequest
           .post({
             url: 'user/login',
-            data: formData
+            data
           })
           .then((res) => {
             message.success(res.data.message)
@@ -64,8 +67,7 @@ export const useLoginStore = defineStore(
         message.error(error)
       }
     }
-const loginType = ref(2)
-    return { login, getLoginCode, register, getRegisterCode,loginType }
+    return { login, getLoginCode, register, getRegisterCode, loginType }
   },
   {
     persist: {
